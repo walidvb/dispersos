@@ -1,0 +1,10 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+svg {
+  width: 700px;
+  height: 300px;
+  box-shadow: 0 0 5px -1px blueviolet;
+}
