@@ -1,19 +1,5 @@
-const constraints = [
-  {
-    w: .1,
-    h: .1,
-  },
-  {
-    w: .2,
-    h: .2,
-  },
-  {
-    w: .3,
-    h: .3,
-  }
-]
 
-function mondrian({ width, height }){
+function mondrian({ width, height }, constraints){
   function pointIsInSquare({ x, y }, sq){
     const xIn = x && x >= sq.x && x <= sq.x + sq.width
     const yIn = y && y >= sq.y && y <= sq.y + sq.height
@@ -71,6 +57,7 @@ function mondrian({ width, height }){
   function addColors(squares, constraints){
     const white = "#F2F5F1"
     const colors = ['#D40920', '#1356A2', '#F7D842']
+    // TODO: this isn't working correctly
     return squares.map(sq => {
       const isInConstraint = constraints.reduce((acc, { w, h }) => (
         acc ||
@@ -94,7 +81,7 @@ function mondrian({ width, height }){
       w: +(1 - constraints.reduce((acc, b) => acc + b.w, 0)).toFixed(4),
       h: +(1 - constraints.reduce((acc, b) => acc + b.h, 0)).toFixed(4),
     }
-    let steps = [...constraints, stepWitoutConstraints]
+    let steps = shuffle([...constraints, stepWitoutConstraints])
     let squares = [{
       x: 0, 
       y: 0,

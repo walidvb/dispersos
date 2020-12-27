@@ -11,16 +11,32 @@ import mondrian from './mondrian';
 
 const width = 310, height = 310
 
+const constraints = [
+  {
+    w: .2,
+    h: .1,
+  },
+  {
+    w: .2,
+    h: .4,
+  },
+  {
+    w: .3,
+    h: .3,
+  }
+]
+
+
 export default () => {
   const ref = useRef();
   //const [isClicked, setIsClicked] = useState(false)
-  const squares = mondrian({ width: 300, height: 300 })
-  console.log(squares)
+  const squares = mondrian({ width: 100, height: 100 }, constraints)
+
   return (
     <>
       <svg 
         ref={ref} 
-        viewBox="0 0 300 300"
+        viewBox="0 0 100 100"
         width={width}
         height={height}
       >

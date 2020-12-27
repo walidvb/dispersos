@@ -31,7 +31,7 @@ export default ({ width, height, x, y, color = "#FF0000" }) => {
 
   return <rect 
     ref={ref} 
-    strokeWidth={5} 
+    strokeWidth={2} 
     stroke={'black'} 
     x={x} 
     y={y} 
