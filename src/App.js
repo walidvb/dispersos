@@ -15,22 +15,25 @@ const constraints = [
   {
     w: .2,
     h: .1,
+    color: '#D40920'
   },
   {
     w: .2,
     h: .4,
+    color: '#1356A2',
   },
   {
     w: .3,
     h: .3,
+    color: '#F7D842',
   }
 ]
 
 
 export default () => {
   const ref = useRef();
-  //const [isClicked, setIsClicked] = useState(false)
-  const squares = mondrian({ width: 100, height: 100 }, constraints)
+  // const [isClicked, setIsClicked] = useState(false)
+  // const [lines, setLines] = useState([])
 
   return (
     <>
@@ -40,11 +43,17 @@ export default () => {
         width={width}
         height={height}
       >
-        {squares.map((s) => <Rect {...s} />)}
+        {constraints.map(({ w, h, color }, i) => (
+          <Rect 
+            width={w*100}
+            height={h*100}
+            color={color}
+            x={100/i - w*100}
+            y={100/i - h*100}
+          />
+          )
+        )}
       </svg>
-      <div>
-        {JSON.stringify(squares)}
-      </div>
     </>
   );
 };
