@@ -2,32 +2,19 @@
 
 function splitSquaresWith(coordinates, squares){
   const { x, y } = coordinates
-  return squares.reduce((acc, sq) => {
-    if(x && x > sq.x && x < sq.x + sq.width) {
-      if(Math.random() > .7){
-        return [
-          ...acc, 
-          sq
-        ]
+
+  return squares.reduce((acc, square) => {
+    let sq = square
+    if(Math.random() > .5){
+      if(x && x > sq.x && x < sq.x + sq.width) {
+        sq = splitOnX(sq, x)
       }
-      return [
-        ...acc,
-        ...splitOnX(sq, x)
-      ]
-    }
-    if( y && y > sq.y && y < sq.y + sq.height){
-      if(Math.random() > .5){
-        return [
-          ...acc, 
-          sq
-        ]
+      if(y && y > sq.y && y < sq.y + sq.height){
+        sq = splitOnY(sq, y)
       }
-      return [
-        ...acc,
-        ...splitOnY(sq, y)
-      ]
     }
-    return [...acc, sq]
+    sq = Array.isArray(sq) ? sq : [sq]
+    return [...acc, ...sq]
   }, [])
 }
 
