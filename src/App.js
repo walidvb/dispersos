@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 // http://bl.ocks.org/mccannf/1629464
 // https://observablehq.com/@d3/click-vs-drag?collection=@d3/d3-drag
@@ -8,6 +8,7 @@ import * as d3 from "d3";
 import { event as currentEvent } from "d3";
 import Rect from "./Rect";
 import mondrian from './mondrian';
+import computeLines from './linesAdder/index';
 
 const width = 310, height = 310
 
@@ -33,8 +34,11 @@ const constraints = [
 export default () => {
   const ref = useRef();
   // const [isClicked, setIsClicked] = useState(false)
-  // const [lines, setLines] = useState([])
+  const [lines, setLines] = useState([])
 
+  useEffect(() => {
+    setLines(computeLines(ref))
+  }, [])
   return (
     <>
       <svg 
@@ -43,6 +47,16 @@ export default () => {
         width={width}
         height={height}
       >
+        {lines.map(l => (
+          <line 
+            x1={l[0][0]}
+            y1={l[0][1]}
+            x1={l[1][0]}
+            y1={l[1][1]}
+            strokeWidth={2}
+            stroke={"#000"}
+          />
+        ))}
         {constraints.map(({ w, h, color }, i) => (
           <Rect 
             width={w*100}
