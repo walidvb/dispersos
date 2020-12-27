@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
 let cursorPos;
-export default ({ width, height, x, y, color = "#FFF" }) => {
+export default ({ width, height, x, y, color = "#FF0000" }) => {
   const ref = useRef();
   useEffect(() => {
     if (!ref.current) {
@@ -31,7 +31,7 @@ export default ({ width, height, x, y, color = "#FFF" }) => {
 
   return <rect 
     ref={ref} 
-    strokeWidth={8} 
+    strokeWidth={5} 
     stroke={'black'} 
     x={x} 
     y={y} 
