@@ -7,15 +7,23 @@ import "./styles.css";
 import * as d3 from "d3";
 import { event as currentEvent } from "d3";
 import Rect from "./Rect";
+import mondrian from './mondrian';
+
+const width = 310, height = 260
 
 export default () => {
   const ref = useRef();
   //const [isClicked, setIsClicked] = useState(false)
-
+  const squares = mondrian({ width: 300, height: 250 })
+  console.log(squares)
   return (
-    <svg ref={ref} viewBox="0 0 300 250">
-      <Rect />
-      <Rect fill="#001100"/>
+    <svg 
+      ref={ref} 
+      viewBox="0 0 300 250"
+      width={width}
+      height={height}
+    >
+      {squares.map((s) => <Rect {...s} />)}
     </svg>
   );
 };

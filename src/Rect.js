@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
 let cursorPos;
-export default ({ width = 100, height = 80, fill = "#1155DD" }) => {
+export default ({ width, height, x, y, color = "#FFF" }) => {
   const ref = useRef();
   useEffect(() => {
     if (!ref.current) {
@@ -29,5 +29,14 @@ export default ({ width = 100, height = 80, fill = "#1155DD" }) => {
     drag(rect);
   }, []);
 
-  return <rect ref={ref} width={width} height={height} fill={fill} />;
+  return <rect 
+    ref={ref} 
+    strokeWidth={8} 
+    stroke={'black'} 
+    x={x} 
+    y={y} 
+    width={width} 
+    height={height} 
+    fill={color} 
+  />;
 };
