@@ -1,15 +1,27 @@
 
 
+
+function pointIsInSquare({ x, y }, sq){
+  const xIn = x && x > sq.x && x < sq.x + sq.width
+  const yIn = y && y > sq.y && y < sq.y + sq.height
+
+  return {
+    x: x && xIn,
+    y: y && yIn,
+  }
+}
+
 function splitSquaresWith(coordinates, squares){
   const { x, y } = coordinates
 
   return squares.reduce((acc, square) => {
     let sq = square
     if(Math.random() > .5){
-      if(x && x > sq.x && x < sq.x + sq.width) {
+      const isIn = pointIsInSquare({ x, y }, sq)
+      if(isIn.x) {
         sq = splitOnX(sq, x)
       }
-      if(y && y > sq.y && y < sq.y + sq.height){
+      if(isIn.y){
         sq = splitOnY(sq, y)
       }
     }
