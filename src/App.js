@@ -37,7 +37,7 @@ export default () => {
   const [lines, setLines] = useState([])
 
   useEffect(() => {
-    setLines(computeLines(ref))
+    setLines(computeLines(ref.current))
   }, [])
   return (
     <>
@@ -51,8 +51,8 @@ export default () => {
           <line 
             x1={l[0][0]}
             y1={l[0][1]}
-            x1={l[1][0]}
-            y1={l[1][1]}
+            x2={l[1][0]}
+            y2={l[1][1]}
             strokeWidth={2}
             stroke={"#000"}
           />
@@ -68,6 +68,9 @@ export default () => {
           )
         )}
       </svg>
+      <div>
+        {JSON.stringify(lines)}
+      </div>
     </>
   );
 };
