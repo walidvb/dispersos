@@ -22,82 +22,87 @@ export default function computeLines(ref){
 
   const rects = d3.select(ref).selectAll('rect').nodes()
   const rectDims = rects.map(getRectDimensions)
-  const edges = rectDims.map(getEdges).reduce((acc, curr) => [...acc, ...curr], [])
+  const edges = rectDims.map(getEdges)
   const infiniteEdges = extendEdges(edges)
-  return infiniteEdges
+  return infiniteEdges.reduce((acc, curr) => [...acc, ...curr], [])
 
   function getEdges(rect) {
     const { x, y, width, height } = rect
     // TODO: don't use transform on the rects
-    return [
-      [[x, y], [x + width, y], rect],
-      [[x + width, y], [x + width, y + height], rect],
-      [[x + width, y + height], [x, y + height], rect],
-      [[x, y + height], [x, y], rect],
-    ]
-  }
-
-  function extendEdges(edges) {
-    return edges.map((edge) => {
-      const isHorz = edge[0][1] === edge[1][1]
-      let newEdge
-      const rdm = Math.random()
-      const cut = rdm < .25 ? 'top' : (rdm < .5 ? 'left' : false) 
-      if (isHorz) {
-        newEdge = [
-          [0, edge[0][1]],
-          [100, edge[1][1]],
-        ]
-        return cutIfIntersectX(newEdge, edge[2])
-      }
-      else{
-        newEdge = [
-          [edge[0][0], 0],
-          [edge[1][0], 100],
-        ]
-        return cutIfIntersectY(newEdge, edge[2])
-      }
-    })
-  }
-
-  function cutIfIntersectX(edge, self){
-    const [[, y1], [, y2]] = edge
-    if(y1 !== y2){
-      throw Error('is not horizontal', edge)
+    return {
+      rect,
+      edges: [
+        [[x, y], [x + width, y], rect],
+        [[x + width, y], [x + width, y + height], rect],
+        [[x + width, y + height], [x, y + height], rect],
+        [[x, y + height], [x, y], rect],
+      ]
     }
+  }
 
-    rectDims.forEach((r) => {
-      if (r !== self && y1 > r.y && y1 < r.y + r.height ){
-        const position = relativePosition(r, self)
-        if(position.x === 'left'){
-          edge[0][0] = r.x + r.width
+  function extendEdges(rects) {
+    return rects.map(({ rect, edges }) => {
+      return edges.map((edge) => {
+        const isHorz = edge[0][1] === edge[1][1]
+        let newEdge
+        const rdm = Math.random()
+        const cut = rdm < .25 ? 'top' : (rdm < .5 ? 'left' : false) 
+        if (isHorz) {
+          newEdge = [
+            [0, edge[0][1]],
+            [100, edge[1][1]],
+          ]
+          return cutIfIntersectX(newEdge)
         }
         else{
-          edge[1][0] = r.x
+          newEdge = [
+            [edge[0][0], 0],
+            [edge[1][0], 100],
+          ]
+          return cutIfIntersectY(newEdge)
         }
+      })
+      function cutIfIntersectX(edge){
+        const [[, y1], [, y2]] = edge
+        if(y1 !== y2){
+          throw Error('is not horizontal', edge)
+        }
+    
+        rectDims.forEach((r) => {
+          if (r !== rect && y1 > r.y && y1 < r.y + r.height ){
+            const position = relativePosition(r, rect)
+            if(position.x === 'left'){
+              edge[0][0] = r.x + r.width
+            }
+            else{
+              edge[1][0] = r.x
+            }
+          }
+        })
+        return edge
+      }
+    
+      function cutIfIntersectY(edge){
+        const [[x1], [x2]] = edge
+        if (x1 !== x2) {
+          throw Error('is not vert', edge)
+        }
+        rectDims.forEach((r) => {
+          if (r !== rect && x1 > r.x && x1 < r.x + r.width) {
+            const position = relativePosition(r, rect)
+            if (position.y === 'top') {
+              edge[0][1] = r.y + r.height
+            }
+            else {
+              edge[1][1] = r.y
+            }
+          }
+        })
+        return edge
       }
     })
-    return edge
   }
-
-  function cutIfIntersectY(edge, self){
-    const [[x1], [x2]] = edge
-    if (x1 !== x2) {
-      throw Error('is not vert', edge)
-    }
-    rectDims.forEach((r) => {
-      if (r !== self && x1 > r.x && x1 < r.x + r.width) {
-        const position = relativePosition(r, self)
-        if (position.y === 'top') {
-          edge[0][1] = r.y + r.height
-        }
-        else {
-          edge[1][1] = r.y
-        }
-      }
-    })
-    return edge
-  }
+  
 
   function relativePosition(
     { x: x1, y: y1, w1, h1}, 
