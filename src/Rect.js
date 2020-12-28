@@ -2,7 +2,16 @@ import React, { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 
 let cursorPos;
-export default ({ width, height, x, y, color = "#FF0000" }) => {
+export default ({ 
+  width, 
+  height, 
+  x, 
+  y,
+  color = "#F2F5F1",
+  className,
+  strokeWidth,
+  onChange,
+}) => {
   const ref = useRef();
   useEffect(() => {
     if (!ref.current) {
@@ -24,14 +33,18 @@ export default ({ width, height, x, y, color = "#FF0000" }) => {
         const dx = d.x - cursorPos[0];
         const dy = d.y - cursorPos[1];
         d3.select(this).raise().attr("transform", `translate(${dx}, ${dy})`);
+        // d3.select(this).raise().attr("x", d.x + dx);
+        // d3.select(this).raise().attr("y", d.y + dy);
+        onChange()
       })
       .on("end", () => (cursorPos = null));
     drag(rect);
   }, []);
 
   return <rect 
-    ref={ref} 
-    strokeWidth={2} 
+    ref={ref}
+    className={className}
+    strokeWidth={strokeWidth} 
     stroke={'black'} 
     x={x} 
     y={y} 
