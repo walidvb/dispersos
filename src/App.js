@@ -31,7 +31,7 @@ const constraints = [
   {
     w: .2,
     h: .1,
-    color: '#D40920'
+    color: 'red'
   },
   {
     w: .2,
@@ -45,6 +45,8 @@ const constraints = [
   },
 ]
 
+
+const STROKE_WIDTH = 1
 
 export default () => {
   const ref = useRef();
@@ -62,24 +64,30 @@ export default () => {
         viewBox="0 0 100 100"
         width={width}
         height={height}
+        // F2F5F1
+        enableBackground
+        background={"#F20000"}
       >
+        <rect width="100" height="100" fill="#F2F5F1"/>
         {lines.map(l => (
           <line 
             x1={l[0][0]}
             y1={l[0][1]}
             x2={l[1][0]}
             y2={l[1][1]}
-            strokeWidth={2}
+            strokeWidth={STROKE_WIDTH}
             stroke={"#000"}
           />
         ))}
         {constraints.map(({ w, h, color }, i) => (
-          <Rect 
-            width={w*100}
-            height={h*100}
+          <Rect
+            className="movable"
+            width={w/2*100}
+            height={h/2*100}
             color={color}
             x={100/i - w*100}
             y={100/i - h*100}
+            strokeWidth={STROKE_WIDTH}
             onChange={recomputeLines}
           />
           )

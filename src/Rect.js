@@ -6,8 +6,10 @@ export default ({
   width, 
   height, 
   x, 
-  y, 
-  color = "#FF0000",
+  y,
+  color = "#F2F5F1",
+  className,
+  strokeWidth,
   onChange,
 }) => {
   const ref = useRef();
@@ -40,8 +42,9 @@ export default ({
   }, []);
 
   return <rect 
-    ref={ref} 
-    strokeWidth={2} 
+    ref={ref}
+    className={className}
+    strokeWidth={strokeWidth} 
     stroke={'black'} 
     x={x} 
     y={y} 
