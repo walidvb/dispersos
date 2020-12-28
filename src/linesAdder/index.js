@@ -64,6 +64,7 @@ export default function computeLines(ref){
         edge[0][0] = 0
         edge[1][0] = 100
 
+        // TODO: handle having 2 neighbours
         otherRects.forEach(function checkIntersections({ rect: r }){
           if (y1 > r.y && y1 < r.y + r.height ){
             const pos = relativePosition(r, rect)
