@@ -9,7 +9,7 @@ import { event as currentEvent } from "d3";
 import Rect from "./Rect";
 import mondrian from './mondrian';
 
-const width = 310, height = 310
+const width = 600, height = 600
 
 const constraints = [
   {
@@ -42,9 +42,9 @@ export default () => {
       >
         {squares.map((s) => <Rect {...s} />)}
       </svg>
-      <div>
+      {/* <div>
         {JSON.stringify(squares)}
-      </div>
+      </div> */}
     </>
   );
 };
