@@ -1,10 +1,22 @@
 import * as d3 from 'd3'
 
 function getEdges(rect){
-  const x = rect.x.baseVal.value
-  const y = rect.y.baseVal.value
+  let transform = [0,0]
+  try{
+    transform = /\((.*)\)/.exec(rect.attributes.transform.value)[1].split(',').map(parseFloat)
+  }
+  catch(err){
+
+  }
+  const [dx, dy] = transform
+
+  const x = rect.x.baseVal.value + dx
+  const y = rect.y.baseVal.value + dy
   const width = rect.width.baseVal.value
   const height = rect.height.baseVal.value
+
+  // TODO: don't use transform on the rects
+
 
   return [
     [[x, y], [x+width, y]],
@@ -16,7 +28,6 @@ function getEdges(rect){
 }
 
 function extendEdges(edges){
-
   return edges.map((edge) => {
     const isHorz = edge[0][1] === edge[1][1]
     if(isHorz){

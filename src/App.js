@@ -18,16 +18,16 @@ const constraints = [
     h: .1,
     color: '#D40920'
   },
-  {
-    w: .2,
-    h: .4,
-    color: '#1356A2',
-  },
-  {
-    w: .3,
-    h: .3,
-    color: '#F7D842',
-  }
+  // {
+  //   w: .2,
+  //   h: .4,
+  //   color: '#1356A2',
+  // },
+  // {
+  //   w: .3,
+  //   h: .3,
+  //   color: '#F7D842',
+  // }
 ]
 
 
@@ -36,6 +36,7 @@ export default () => {
   // const [isClicked, setIsClicked] = useState(false)
   const [lines, setLines] = useState([])
 
+  const recomputeLines = () => setLines(computeLines(ref.current))
   useEffect(() => {
     setLines(computeLines(ref.current))
   }, [])
@@ -49,11 +50,12 @@ export default () => {
       >
         {constraints.map(({ w, h, color }, i) => (
           <Rect 
-          width={w*100}
-          height={h*100}
-          color={color}
-          x={100/i - w*100}
-          y={100/i - h*100}
+            width={w*100}
+            height={h*100}
+            color={color}
+            x={100/i - w*100}
+            y={100/i - h*100}
+            onChange={recomputeLines}
           />
           )
           )}
