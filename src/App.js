@@ -47,26 +47,26 @@ export default () => {
         width={width}
         height={height}
       >
-        {lines.map(l => (
-          <line 
-            x1={l[0][0]}
-            y1={l[0][1]}
-            x2={l[1][0]}
-            y2={l[1][1]}
-            strokeWidth={2}
-            stroke={"#000"}
-          />
-        ))}
         {constraints.map(({ w, h, color }, i) => (
           <Rect 
-            width={w*100}
-            height={h*100}
-            color={color}
-            x={100/i - w*100}
-            y={100/i - h*100}
+          width={w*100}
+          height={h*100}
+          color={color}
+          x={100/i - w*100}
+          y={100/i - h*100}
           />
           )
-        )}
+          )}
+          {lines.map(l => (
+            <line 
+              x1={l[0][0]}
+              y1={l[0][1]}
+              x2={l[1][0]}
+              y2={l[1][1]}
+              strokeWidth={2}
+              stroke={"#00FF00"}
+            />
+          ))}
       </svg>
       <div>
         {JSON.stringify(lines)}

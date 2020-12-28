@@ -15,12 +15,30 @@ function getEdges(rect){
   ]
 }
 
+function extendEdges(edges){
+
+  return edges.map((edge) => {
+    const isHorz = edge[0][1] === edge[1][1]
+    if(isHorz){
+      return [
+        [0, edge[0][1]], 
+        [100, edge[1][1]]
+      ]
+    }
+    return [
+      [edge[0][0], 0],
+      [edge[1][0], 100]
+    ]
+  })
+}
+
 export default function computeLines(ref){
 
   const rects = d3.select(ref).selectAll('rect').nodes()
-
-  const edges = rects.map(getEdges)
-  console.log(rects)
-  return edges.reduce((acc, curr) => [...acc, ...curr], [])
+  const edgesGrouped = rects.map(getEdges)
+  const edges = edgesGrouped.reduce((acc, curr) => [...acc, ...curr], [])
+  const infiniteEdges = extendEdges(edges)
+  
+  return infiniteEdges
 
 }
