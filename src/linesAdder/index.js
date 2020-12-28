@@ -1,5 +1,6 @@
 import * as d3 from 'd3'
 
+
 function getRectDimensions(rect){
   let transform = [0, 0]
   try {
@@ -40,27 +41,27 @@ export default function computeLines(ref){
     return edges.map((edge) => {
       const isHorz = edge[0][1] === edge[1][1]
       let newEdge
+      const rdm = Math.random()
+      const cut = rdm < .25 ? 'top' : (rdm < .5 ? 'left' : false) 
       if (isHorz) {
         newEdge = [
           [0, edge[0][1]],
           [100, edge[1][1]],
-          edge[2],
         ]
-        return cutIfIntersectX(newEdge)
+        return cutIfIntersectX(newEdge, edge[2])
       }
       else{
         newEdge = [
           [edge[0][0], 0],
           [edge[1][0], 100],
-          edge[2],
         ]
-        return cutIfIntersectY(newEdge)
+        return cutIfIntersectY(newEdge, edge[2])
       }
     })
   }
 
-  function cutIfIntersectX(edge){
-    const [[, y1], [, y2], self] = edge
+  function cutIfIntersectX(edge, self){
+    const [[, y1], [, y2]] = edge
     if(y1 !== y2){
       throw Error('is not horizontal', edge)
     }
@@ -79,8 +80,8 @@ export default function computeLines(ref){
     return edge
   }
 
-  function cutIfIntersectY(edge){
-    const [[x1], [x2], self] = edge
+  function cutIfIntersectY(edge, self){
+    const [[x1], [x2]] = edge
     if (x1 !== x2) {
       throw Error('is not vert', edge)
     }
