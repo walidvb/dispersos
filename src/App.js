@@ -10,24 +10,39 @@ import Rect from "./Rect";
 import mondrian from './mondrian';
 import computeLines from './linesAdder/index';
 
-const width = 310, height = 310
+const width = 600, height = 600
 
 const constraints = [
   {
     w: .2,
     h: .1,
+    color: 'blueviolet'
+  },
+  {
+    w: .2,
+    h: .4,
+    color: 'yellow',
+  },
+  {
+    w: .3,
+    h: .3,
+    color: '#F7D842',
+  },
+  {
+    w: .2,
+    h: .1,
     color: '#D40920'
   },
-  // {
-  //   w: .2,
-  //   h: .4,
-  //   color: '#1356A2',
-  // },
-  // {
-  //   w: .3,
-  //   h: .3,
-  //   color: '#F7D842',
-  // }
+  {
+    w: .2,
+    h: .4,
+    color: '#1356A2',
+  },
+  {
+    w: .3,
+    h: .3,
+    color: '#F7D842',
+  },
 ]
 
 
@@ -48,6 +63,16 @@ export default () => {
         width={width}
         height={height}
       >
+        {lines.map(l => (
+          <line 
+            x1={l[0][0]}
+            y1={l[0][1]}
+            x2={l[1][0]}
+            y2={l[1][1]}
+            strokeWidth={2}
+            stroke={"#000"}
+          />
+        ))}
         {constraints.map(({ w, h, color }, i) => (
           <Rect 
             width={w*100}
@@ -59,16 +84,6 @@ export default () => {
           />
           )
           )}
-          {lines.map(l => (
-            <line 
-              x1={l[0][0]}
-              y1={l[0][1]}
-              x2={l[1][0]}
-              y2={l[1][1]}
-              strokeWidth={2}
-              stroke={"#00FF00"}
-            />
-          ))}
       </svg>
       <div>
         {JSON.stringify(lines)}
